@@ -46,7 +46,7 @@ public class MyAlarmService extends Service {
 
 
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage("2818657070", null, "Hi Thu, how are you doing?", null, null);
+        smsManager.sendTextMessage("2818657070", null, Message.getTextString(), null, null);
     }
 
     @Override

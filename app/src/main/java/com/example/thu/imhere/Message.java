@@ -41,6 +41,7 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
     EditText contacts_list, template_display;
     TemplateDb templateDB;
     TextView textViewOpening;
+    public static String textString;
 
     public static final int PICK_CONTACT = 1;
     public static String phone_number;
@@ -81,7 +82,8 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        // grab the first string from spinner menu
+        textString = (String) dataAdapter.getItem(0);
         // attaching data adapter to spinner
         spinner_template.setAdapter(dataAdapter);
 
@@ -223,6 +225,10 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+    }
+
+    public static String getTextString(){
+        return textString;
     }
 
 
