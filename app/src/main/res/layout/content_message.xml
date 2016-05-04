@@ -75,9 +75,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/spinner_template"
         android:layout_toRightOf="@+id/send"
-        android:layout_toEndOf="@+id/send"
         android:layout_alignTop="@+id/text_field"
-        android:background="#ffffff" />
+        android:background="#ffffff"
+        android:layout_alignBottom="@+id/text_field"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -85,8 +87,10 @@
         android:id="@+id/spinner_group"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/contacts_field"
-        android:layout_toEndOf="@+id/contacts_field"
-        android:background="#ffffff" />
+        android:background="#ffffff"
+        android:layout_above="@+id/checkBox"
+        android:layout_alignRight="@+id/spinner_template"
+        android:layout_alignEnd="@+id/spinner_template" />
 
     <TextView
         android:layout_width="wrap_content"

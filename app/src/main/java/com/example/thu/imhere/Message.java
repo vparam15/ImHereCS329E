@@ -1,6 +1,7 @@
 package com.example.thu.imhere;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +30,10 @@ import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 
+import com.example.thu.imhere.getset.SelectUser;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -87,7 +91,21 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
         Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSMS(phone_number, "Hi! How are you?");
+                Intent myIntent = new Intent(Message.this, MyAlarmService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(Message.this, 0, myIntent, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                // for testing+ demo
+                calendar.add(Calendar.SECOND, 30);
+                // real stuff
+                int randomNumber = (int)Math.random();
+                //calendar.add(Calendar.DAY_OF_WEEK, randomNumber);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                SelectUser chooseUser = new SelectUser();
+                String phone_number = new String();
+                phone_number = chooseUser.getPhone();
+                //sendSMS("2818657070","Hi! How are you?");
             }
         });
 
