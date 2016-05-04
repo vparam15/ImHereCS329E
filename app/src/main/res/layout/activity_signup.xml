@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Signup"
+        android:id = "@+id/signup_text"
+        android:textSize="50dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_marginTop="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Username"
+        android:id = "@+id/first_name_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/signup_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/first_name_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_below="@+id/first_name_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Phone number"
+        android:id = "@+id/phone_number_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/first_name_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/phone_number_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_below="@+id/phone_number_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Password"
+        android:id = "@+id/password_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/phone_number_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/password_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/password_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Confirm password"
+        android:id = "@+id/confirm_password_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/password_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/confirm_password_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/confirm_password_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:id = "@+id/submit"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="Submit"
+        android:textSize="10dp"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/confirm_password_field"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

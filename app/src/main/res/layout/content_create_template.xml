@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.thu.imhere.CreateTemplate"
+    tools:showIn="@layout/activity_create_template">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Message opening"
+        android:id = "@+id/message_opening_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message_opening_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_below="@+id/message_opening_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Message ending"
+        android:id = "@+id/message_ending_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/message_opening_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message_ending_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_below="@+id/message_ending_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_template_name"
+        android:id="@+id/template_name_text"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:textColor="#ffffff"
+        android:layout_below="@+id/message_ending_field"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/template_name_field"
+        android:background="#ffffff"
+        android:typeface="monospace"
+        android:focusable="true"
+        android:layout_below="@+id/template_name_text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background = "@drawable/roundbutton"
+        android:textSize="30dp"
+        android:text="create message"
+        android:id="@+id/add_message_button"
+        android:typeface="monospace"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

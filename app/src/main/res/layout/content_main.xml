@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.thu.imhere.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:background="@color/background_color">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Compose Message"
+        android:typeface="monospace"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="128dp"
+        android:background = "@drawable/roundbutton"
+        android:id="@+id/compose_message"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Access Contacts"
+        android:id="@+id/contacts"
+        android:typeface="monospace"
+        android:layout_below="@+id/compose_message"
+        android:layout_alignRight="@+id/compose_message"
+        android:layout_alignEnd="@+id/compose_message"
+        android:layout_marginTop="38dp"
+        android:background = "@drawable/roundbutton"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Access Templates"
+        android:typeface="monospace"
+        android:id="@+id/templates"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/contacts"
+        android:background = "@drawable/roundbutton"
+        android:layout_alignLeft="@+id/compose_message"
+        android:layout_alignStart="@+id/compose_message" />
+
+</RelativeLayout>
