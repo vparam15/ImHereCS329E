@@ -1,21 +1,29 @@
 package com.example.thu.imhere;
 
+import android.Manifest;
 import android.app.Activity;
+
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,25 +38,24 @@ import android.os.Bundle;
 import android.provider.Contacts;
 import android.provider.ContactsContract;
 
-import com.example.thu.imhere.getset.SelectUser;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
 
 public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    Button Send, addGroup;
-    EditText contacts_list, template_display;
+    Button Send;
+    EditText contacts_list;
+    public Button addContact;
     TemplateDb templateDB;
     TextView textViewOpening;
     public static String textString;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
 
-    public static final int PICK_CONTACT = 1;
+    static final int PICK_CONTACT = 1;
+    private static final int REQUEST_CODE = 1;
     public static String phone_number;
+    public static String item;
 
-    public static String getNumber(){
-        return phone_number;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +64,12 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         // Spinner elements
         Spinner spinner_template = (Spinner) findViewById(R.id.spinner_template);
-        Spinner spinner_group = (Spinner) findViewById(R.id.spinner_group);
+
         textViewOpening = (TextView) findViewById(R.id.textView_opening);
 
         // Spinner click listener
         spinner_template.setOnItemSelectedListener(this);
-        spinner_group.setOnItemSelectedListener(this);
+
 
         // Get an instance of the database helper class
         templateDB = new TemplateDb(this);
@@ -82,32 +89,60 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // grab the first string from spinner menu
-        textString = (String) dataAdapter.getItem(0);
         // attaching data adapter to spinner
         spinner_template.setAdapter(dataAdapter);
 
         contacts_list = (EditText) findViewById(R.id.contacts_field);
+        // add Contacts
+        addContact = (Button) findViewById(R.id.add_contact_button);
         Send = (Button) findViewById(R.id.send);
+
+
+        addContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Uri uri = Uri.parse("content://contacts");
+                Intent intent = new Intent(Intent.ACTION_PICK, uri);
+                intent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+
+        });
 
         Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(Message.this, MyAlarmService.class);
-                PendingIntent pendingIntent = PendingIntent.getService(Message.this, 0, myIntent, 0);
-                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(System.currentTimeMillis());
-                // for testing+ demo
-                calendar.add(Calendar.SECOND, 30);
-                // real stuff
-                int randomNumber = (int)Math.random();
-                //calendar.add(Calendar.DAY_OF_WEEK, randomNumber);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                SelectUser chooseUser = new SelectUser();
-                String phone_number = new String();
-                phone_number = chooseUser.getPhone();
-                //sendSMS("2818657070","Hi! How are you?");
+                // ask permission
+                int hasWriteContactsPermission = 0;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    hasWriteContactsPermission = checkSelfPermission(Manifest.permission.SEND_SMS);
+                }
+                if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (!shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)) {
+                            showMessageOKCancel("You need to allow access to send sms",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                                                        REQUEST_CODE_ASK_PERMISSIONS);
+                                            }
+                                        }
+                                    });
+                            return;
+                        }
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                                REQUEST_CODE_ASK_PERMISSIONS);
+                    }
+                    return;
+                }
+                // send SMS
+
+                sendSMS(phone_number, item);
+
             }
         });
 
@@ -117,13 +152,14 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
+        item = parent.getItemAtPosition(position).toString();
 
         // Showing selected spinner item
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
 
         // Perform the selected item's task
         textViewOpening.setText(item);
+
     }
 
     public void onNothingSelected(AdapterView<?> arg0) {
@@ -131,39 +167,30 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
     }
 
     @Override
-    public void onActivityResult(int reqCode, int resultCode, Intent data) {
-        super.onActivityResult(reqCode, resultCode, data);
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent intent) {
+        if (requestCode == REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Uri uri = intent.getData();
+                String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME};
 
-        switch (reqCode) {
-            case (PICK_CONTACT) :
-                if (resultCode == Activity.RESULT_OK) {
+                Cursor cursor = getContentResolver().query(uri, projection,
+                        null, null, null);
+                cursor.moveToFirst();
 
-                    Uri contactData = data.getData();
-                    Cursor c =  managedQuery(contactData, null, null, null, null);
-                    if (c.moveToFirst()) {
+                int numberColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String number = cursor.getString(numberColumnIndex);
+                this.phone_number = number;
+
+                int nameColumnIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                String name = cursor.getString(nameColumnIndex);
+                contacts_list.setText(name);
 
 
-                        String id =c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
-
-                        String hasPhone =c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
-
-                        if (hasPhone.equalsIgnoreCase("1")) {
-                            Cursor phones = getContentResolver().query(
-                                    ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,
-                                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = "+ id,
-                                    null, null);
-                            phones.moveToFirst();
-                            String cNumber = phones.getString(phones.getColumnIndex("data1"));
-                            phone_number = cNumber;
-                        }
-                        String name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                        contacts_list.setText(name);
-
-                    }
-                }
-                break;
+            }
         }
     }
+
 
     // send Message
     public void sendSMS(String phoneNumber, String message) {
@@ -225,16 +252,36 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);
+
     }
-
-    public static String getTextString(){
-        return textString;
+// permission
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    switch (requestCode) {
+        case REQUEST_CODE_ASK_PERMISSIONS:
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+            } else {
+                // Permission Denied
+                Toast.makeText(Message.this, "Send SMS Denied", Toast.LENGTH_SHORT)
+                        .show();
+            }
+            break;
+        default:
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-
-
 }
 
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(Message.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
+
+}
 
 
 

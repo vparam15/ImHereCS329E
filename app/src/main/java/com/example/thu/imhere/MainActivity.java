@@ -27,13 +27,6 @@ public class MainActivity extends AppCompatActivity {
         Templates = (Button)findViewById(R.id.templates);
         Message = (Button)findViewById(R.id.compose_message);
 
-        Groups.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent groups_screen = new Intent(MainActivity.this, ViewGroup.class);
-                startActivity(groups_screen);
-            }
-        });
 
         Templates.setOnClickListener(new View.OnClickListener(){
             @Override

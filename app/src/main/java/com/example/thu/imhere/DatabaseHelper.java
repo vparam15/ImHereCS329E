@@ -34,7 +34,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         // this is the execute sql query method that takes a string sql query and executes this query
-        db.execSQL("create table " + TABLE_NAME + " (USER_ID INTEGER PRIMARY KEY AUTOINCREMENT, USERNAME TEXT PRIMARY KEY, PHONE TEXT, PASSWORD TEXT)");
+        db.execSQL("create table " + TABLE_NAME + " (USER_ID INTEGER , USERNAME TEXT , PHONE TEXT, PASSWORD TEXT)");
 
     }
 

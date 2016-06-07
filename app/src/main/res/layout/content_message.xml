@@ -39,6 +39,16 @@
         android:layout_below="@+id/spinner_template"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="47dp" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Find Contact"
+        android:typeface="monospace"
+        android:id="@+id/add_contact_button"
+        android:background="@drawable/roundbutton"
+        android:layout_above="@+id/checkBox"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -81,16 +91,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner_group"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/contacts_field"
-        android:background="#ffffff"
-        android:layout_above="@+id/checkBox"
-        android:layout_alignRight="@+id/spinner_template"
-        android:layout_alignEnd="@+id/spinner_template" />
+
 
     <TextView
         android:layout_width="wrap_content"
