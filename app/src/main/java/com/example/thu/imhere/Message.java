@@ -44,7 +44,7 @@ import java.util.Calendar;
 
 public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
     Button Send;
-    EditText contacts_list;
+    public static EditText contacts_list, text_field;
     public Button addContact;
     TemplateDb templateDB;
     TextView textViewOpening;
@@ -59,8 +59,10 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
         return phone_number;
     }
     public static String getTextString(){
+        item= text_field.getText().toString();
         return item;
     }
+
 
 
     @Override
@@ -99,6 +101,9 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
         spinner_template.setAdapter(dataAdapter);
 
         contacts_list = (EditText) findViewById(R.id.contacts_field);
+        text_field = (EditText) findViewById(R.id.text_field);
+
+
         // add Contacts
         addContact = (Button) findViewById(R.id.add_contact_button);
         Send = (Button) findViewById(R.id.send);
@@ -170,6 +175,7 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
 
         // On selecting a spinner item
         item = parent.getItemAtPosition(position).toString();
+        text_field.setText(item);
 
         // Showing selected spinner item
         Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
