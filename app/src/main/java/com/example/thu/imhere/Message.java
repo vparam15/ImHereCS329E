@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 
-public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Message extends AppCompatActivity implements AdapterView.OnItemSelectedListener  {
     Button Send;
     EditText contacts_list;
     public Button addContact;
@@ -55,6 +55,12 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
     private static final int REQUEST_CODE = 1;
     public static String phone_number;
     public static String item;
+    public static String getNumber(){
+        return phone_number;
+    }
+    public static String getTextString(){
+        return item;
+    }
 
 
     @Override
@@ -141,7 +147,18 @@ public class Message extends AppCompatActivity implements AdapterView.OnItemSele
                 }
                 // send SMS
 
-                sendSMS(phone_number, item);
+               // sendSMS(phone_number, item);
+                Intent myIntent = new Intent(Message.this, MyAlarmService.class);
+                PendingIntent pendingIntent = PendingIntent.getService(Message.this, 0, myIntent, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                // for testing+ demo
+                calendar.add(Calendar.SECOND, 30);
+                // real stuff
+                /*int randomNumber = (int)Math.random();
+                //calendar.add(Calendar.DAY_OF_WEEK, randomNumber);*/
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 
             }
         });

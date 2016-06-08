@@ -48,8 +48,10 @@
             android:name=".Message"
             android:label="Message"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
+        <service android:name=".MyAlarmService"
+            android:label="MyAlarmService"
+            android:enabled="true" />
     </application>
 
 </manifest>
